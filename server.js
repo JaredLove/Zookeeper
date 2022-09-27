@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { animals } = require('./data/animals.json');
 const PORT = process.env.PORT || 3001;
 
 const app = express();
@@ -45,11 +45,7 @@ function filterByQuery(query, animalsArray) {
 
 function findById(id, animalsArray) {
   const result = animalsArray.filter(animal => animal.id === id)[0];
-  if (result) {
-    res.json(result);
-  } else {
-    res.send(404);
-  }
+ 
   return result;
 }
 
@@ -65,7 +61,11 @@ app.get('/api/animals', (req, res) => {
 
 app.get('/api/animals/:id', (req, res) => {
   const result = findById(req.params.id, animals);
+    if (result) {
     res.json(result);
+  } else {
+    res.send(404);
+  }
 });
 
 app.listen(PORT, () => {
@@ -75,4 +75,4 @@ app.listen(PORT, () => {
 });
 
 
-const { animals } = require('./data/animals.json');
+
